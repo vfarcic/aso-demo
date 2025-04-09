@@ -1,34 +1,29 @@
----
 apiVersion: dbforpostgresql.azure.com/v1api20221201
 kind: FlexibleServer
 metadata:
-  name: my-db
+  name: my-db-20250410002754
 spec:
   location: eastus
-  version: "14"
+  version: '14'
   sku:
-    name: Standard_B1s
+    name: Standard_D2ads_v5
     tier: GeneralPurpose
   owner:
-    name: my-db
+    name: my-db-20250410002754
   storage:
     storageSizeGB: 128
-  # autoGrowEnabled = True
-  # sslEnforcementEnabled = False
-  # sslMinimalTlsVersionEnforced = "TLSEnforcementDisabled"
   administratorLogin: postgres
   administratorLoginPassword:
-    name: my-db-password
+    name: my-db-20250410002754-password
     key: password
-  # publicNetworkAccessEnabled = True
-
-# }, {
-#     apiVersion = "dbforpostgresql.azure.upbound.io/v1beta1"
-#     kind = "FirewallRule"
-#     metadata = _metadata("firewall-rule")
-#     spec.forProvider = {
-#         startIpAddress = "0.0.0.0"
-#         endIpAddress = "255.255.255.255"
-#         resourceGroupNameSelector.matchControllerRef = True
-#         serverNameSelector.matchControllerRef = True
-#     }
+  operatorSpec:
+    secretExpressions:
+    - name: my-db-20250410002754
+      key: username
+      value: self.status.administratorLogin
+    - name: my-db-20250410002754
+      key: endpoint
+      value: self.status.fullyQualifiedDomainName
+    - name: my-db-20250410002754
+      key: port
+      value: '"5432"'
