@@ -1,10 +1,10 @@
 apiVersion: dbforpostgresql.azure.com/v1api20221201
 kind: FlexibleServersFirewallRule
 metadata:
-  name: my-db-20250410002754
+  name: my-db-20250411003134
 spec:
   startIpAddress: 0.0.0.0
   endIpAddress: 255.255.255.255
   owner:
-    name: my-db-20250410002754
-  azureName: my-db-20250410002754
+    name: my-db-20250411003134
+  azureName: my-db-20250411003134

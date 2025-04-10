@@ -1,18 +1,18 @@
 apiVersion: dbforpostgresql.azure.com/v1api20221201
 kind: FlexibleServer
 metadata:
-  name: my-db-20250410002754-2
+  name: my-db-20250411003134-2
 spec:
   location: eastus
   version: '14'
   sku:
-    name: Standard_D2ads_v5
+    name: Standard_D2ads_v5xxx
     tier: GeneralPurpose
   owner:
-    name: my-owner
+    name: something-else
   storage:
     storageSizeGB: 128
   administratorLogin: postgres
   administratorLoginPassword:
-    name: my-db-20250410002754-password
+    name: my-db-20250411003134-password
     key: password

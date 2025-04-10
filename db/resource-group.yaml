@@ -1,6 +1,6 @@
 apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
-  name: my-db-20250410002754
+  name: my-db-20250411003134
 spec:
   location: eastus

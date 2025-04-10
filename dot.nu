@@ -4,6 +4,7 @@ source  scripts/common.nu
 source  scripts/kubernetes.nu
 source  scripts/cert-manager.nu
 source  scripts/aso.nu
+source  scripts/crossplane.nu
 
 def main [] {}
 
@@ -17,7 +18,7 @@ def "main setup" [] {
 
     kubectl create namespace a-team
 
-    main apply aso --namespace a-team
+    main apply aso --namespace a-team --sync_period "1m"
 
     let name = $"my-db-(date now | format date "%Y%m%d%H%M%S")"
 
@@ -40,7 +41,6 @@ def "main setup" [] {
 
     open db/server-2.yaml
         | upsert metadata.name $"($name)-2"
-        | upsert spec.owner.name $name
         | upsert spec.administratorLoginPassword.name $"($name)-password"
         | save db/server-2.yaml --force
 
@@ -51,6 +51,25 @@ def "main setup" [] {
         | save db/firewall-rule.yaml --force
 
     $"export RESOURCE_NAME=($name)\n" | save --append .env
+
+    main apply crossplane --db true --preview true
+
+    let dot_name = $"my-db-(date now | format date "%Y%m%d%H%M%S")"
+
+    open dot-sql.yaml
+        | upsert metadata.name $dot_name
+        | save dot-sql.yaml --force
+
+    open dot-sql-password.yaml
+        | upsert metadata.name $"($dot_name)-password"
+        | save dot-sql-password.yaml --force
+
+    (
+        kubectl --namespace a-team apply
+            --filename dot-sql-password.yaml
+    )
+
+    $"export DOT_RESOURCE_NAME=($dot_name)\n" | save --append .env
 
     main print source
     
